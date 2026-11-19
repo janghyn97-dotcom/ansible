@@ -1,0 +1,6 @@
+
+# nodejs용 태스크 파일
+- name : Installing node
+  ansible.builtin.dnf:
+    name: nodejs
+    state: present

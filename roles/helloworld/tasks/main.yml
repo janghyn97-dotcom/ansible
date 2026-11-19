@@ -1,0 +1,26 @@
+---
+# helloworld용 태스크 파일
+- name: Copying the application file
+  ansible.builtin.copy:
+    src: helloworld.js
+    dest: /home/ec2-user/
+    owner: ec2-user
+    group: ec2-user
+    mode: "0644"
+  notify: restart helloworld          # 파일이 바뀌면 핸들러를 호출
+
+- name: Copying the systemd unit file
+  ansible.builtin.copy:
+    src: helloworld.service
+    dest: /etc/systemd/system/helloworld.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart helloworld
+
+- name: Starting the HelloWorld node service
+  ansible.builtin.systemd:            # service 대신 systemd 모듈 (unit 파일 다시 읽기 지원)
+    name: helloworld
+    state: started
+    enabled: true                     # 부팅 시 자동 시작
+    daemon_reload: true               # 새 unit 파일을 systemd가 읽도록 갱신

@@ -1,0 +1,5 @@
+# helloworld용 핸들러 파일
+- name: restart helloworld
+  ansible.builtin.systemd:
+    name: helloworld
+    state: restarted
